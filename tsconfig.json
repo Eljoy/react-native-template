@@ -14,7 +14,8 @@
       ],
       "@features/*": [
         "src/features/*"
-      ]
+      ],
+      "@screens": ["src/screens"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
