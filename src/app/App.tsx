@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {type PropsWithChildren} from 'react';
+import React, { type PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -31,7 +31,7 @@ const Section: React.FC<
   PropsWithChildren<{
     title: string;
   }>
-> = ({children, title}) => {
+> = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -41,7 +41,8 @@ const Section: React.FC<
           {
             color: isDarkMode ? Colors.white : Colors.black,
           },
-        ]}>
+        ]}
+      >
         {title}
       </Text>
       <Text
@@ -50,7 +51,8 @@ const Section: React.FC<
           {
             color: isDarkMode ? Colors.light : Colors.dark,
           },
-        ]}>
+        ]}
+      >
         {children}
       </Text>
     </View>
@@ -72,12 +74,14 @@ const App = () => {
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+        style={backgroundStyle}
+      >
         <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
+          }}
+        >
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
