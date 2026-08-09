@@ -1,20 +1,12 @@
-import styled from 'styled-components/native';
+import { View } from 'react-native';
 
 import { Typography } from '@shared/ui';
 
 export const HomeScreen = () => (
-  <StyledWrapper>
+  <View className="flex-1 items-center justify-center gap-2 bg-background">
     <Typography variant="title">react-native-template</Typography>
     <Typography variant="caption">
       Edit src/screens/home/ui/HomeScreen.tsx to get started
     </Typography>
-  </StyledWrapper>
+  </View>
 );
-
-const StyledWrapper = styled.View`
-  align-items: center;
-  background-color: ${({ theme }) => theme.colors.background};
-  flex: 1;
-  gap: ${({ theme }) => theme.spacing.sm}px;
-  justify-content: center;
-`;
