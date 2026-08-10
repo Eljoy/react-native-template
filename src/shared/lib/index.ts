@@ -1,1 +1,1 @@
-export { fallbackLanguage, initI18n, resources } from './i18n';
+export { commonTranslations, fallbackLanguage, initI18n } from './i18n';

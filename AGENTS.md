@@ -80,13 +80,14 @@ Rules:
 
 ## Localization
 
-i18next + react-i18next + expo-localization, configured in `shared/lib/i18n` (initialized once via `initI18n()` in `src/app/App.tsx`; Jest does the same in `jest/setup.ts`):
+i18next + react-i18next + expo-localization. **Each slice owns its translations as an i18next namespace**; the app layer aggregates them:
 
-- **All user-facing strings go through `t()`** (`useTranslation` from `react-i18next`) — never hardcode display text in components
-- Translations live in `src/shared/lib/i18n/locales/<lang>.json`, one file per language; keys are grouped by slice (`home.title`, `profile.logout`). Every language file must define the same keys
-- Keys are **typed** from `en.json` (see `i18next.d.ts`) — a typo'd key is a TS error; `en` is the source of truth, add new keys there first
-- Adding a language: create the JSON file, register it in `resources` in `i18n.ts`
-- Device language is detected via `expo-localization` at startup; switch at runtime with `i18next.changeLanguage()`
+- **All user-facing strings go through `t()`** (`useTranslation('<namespace>')`) — never hardcode display text in components
+- A slice's translations live in `<slice>/i18n/<lang>.json`, exported from the slice's public API as `<slice>Translations` (see `screens/home/i18n`); components in the slice use `useTranslation('<slice>')`
+- `shared/lib/i18n` holds only the machinery (`initI18n`) and the `common` namespace (strings for shared/ui: "OK", "Cancel", ...); `common` is the default namespace
+- `src/app/i18n` is the aggregation point: register each new slice's namespace in `init.ts` **and** in the `i18next.d.ts` type augmentation — keys are typed from `en`, so a typo'd key or unregistered namespace is a TS error
+- Adding a language: add `<lang>.json` next to each slice's `en.json` and register it in that slice's `<slice>Translations`; `en` is the source of truth for keys
+- Device language is detected via `expo-localization` at startup (`initAppI18n()` in `App.tsx`; Jest mirrors it in `jest/setup.ts`); switch at runtime with `i18next.changeLanguage()`
 
 ## React Compiler
 
