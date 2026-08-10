@@ -60,6 +60,14 @@ Rules:
 - Spacing, radii, and font sizes use Tailwind's default scale (`p-4`, `gap-2`, `rounded-md`, `text-base`); customize via `@theme` in `global.css` only when the design calls for it
 - Theme switching: `Uniwind.setTheme('light' | 'dark' | 'system')`
 
+## React Compiler
+
+React Compiler is enabled (`experiments.reactCompiler` in `app.json` + `babel-plugin-react-compiler`):
+
+- Don't add manual memoization (`useMemo`, `useCallback`, `React.memo`) — the compiler handles it; write plain components and let it optimize
+- Follow the Rules of React strictly (no mutating props/state, pure render) — violations make the compiler silently skip the component; the `react-hooks` lint rules (via `eslint-config-expo`) flag them
+- Class components are not optimized — another reason to stick to function components
+
 ## Code style
 
 - Prefer arrow functions for components
@@ -72,3 +80,4 @@ Rules:
 
 - When creating new files, add them to git (`git add`)
 - Don't autocommit — never commit unless explicitly asked
+- A husky pre-commit hook runs `lint-staged` (ESLint `--fix` + Prettier on staged files); if a commit fails, fix the reported lint errors rather than bypassing the hook (`--no-verify` only when the user asks)
