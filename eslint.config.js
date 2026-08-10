@@ -1,5 +1,6 @@
 const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
+const jest = require('eslint-plugin-jest');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const simpleImportSort = require('eslint-plugin-simple-import-sort');
 
@@ -80,6 +81,10 @@ module.exports = defineConfig([
       'simple-import-sort/exports': 'error',
       'sort-imports': 'off',
     },
+  },
+  {
+    ...jest.configs['flat/recommended'],
+    files: ['**/*.test.{ts,tsx}'],
   },
   {
     files: ['**/*.d.ts'],

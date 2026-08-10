@@ -10,8 +10,16 @@ Opinionated Expo (SDK 57) + TypeScript template. React Navigation (native stack)
 - `npm run lint` / `npm run lint:fix` — ESLint (flat config, `eslint.config.js`)
 - `npm run format` — Prettier
 - `npm run typecheck` — `tsc --noEmit`
+- `npm test` — Jest (`npm run test:watch` for watch mode)
 
-Run `npm run lint` and `npm run typecheck` after making changes.
+Run `npm run lint` and `npm run typecheck` after making changes; run `npm test` when changing components or logic.
+
+## Testing
+
+- Jest with the `jest-expo` preset and `@testing-library/react-native` (`react-test-renderer` is pinned to the exact React version — keep them in sync when upgrading React)
+- Colocate tests next to the source file: `Component.tsx` → `Component.test.tsx` (see `src/shared/ui/Typography/Typography.test.tsx`)
+- Query by what the user sees (`screen.getByText`, `getByRole`) and assert with the built-in matchers (`toBeOnTheScreen`)
+- CSS imports are stubbed in Jest (`jest/css-stub.js`) — Uniwind classNames are inert in tests, so don't assert on styles
 
 ## Architecture — Feature-Sliced Design
 
