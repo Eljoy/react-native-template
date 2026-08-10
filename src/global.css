@@ -1,12 +1,69 @@
 @import 'tailwindcss';
 @import 'uniwind';
 
-
+/* ── Tier 1: primitives ─────────────────────────────────────────
+   Raw palette values. Never use these in components — they exist
+   only to be referenced by semantic tokens below.
+   `--color-*: initial` wipes Tailwind's default palette so classes
+   like `bg-blue-500` don't exist: semantic tokens are the only way
+   to color anything. */
 @theme {
-  --color-background: #ffffff;
-  --color-surface: #f4f5f7;
-  --color-foreground: #111214;
-  --color-muted: #6b7076;
-  --color-primary: #2f6fed;
-  --color-danger: #e5484d;
+  --color-*: initial;
+
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+  --color-neutral-950: #09090b;
+
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+
+  --color-red-400: #f87171;
+  --color-red-600: #dc2626;
+  --color-green-400: #34d399;
+  --color-green-600: #059669;
+  --color-amber-400: #fbbf24;
+  --color-amber-600: #d97706;
+}
+
+/* ── Tier 2: semantic tokens ────────────────────────────────────
+   Role-based tokens components actually use. Both themes must
+   define the same set. Classes resolve per active theme with no
+   `dark:` prefix: bg-background, bg-surface, border-border,
+   text-foreground, text-muted, bg-primary, text-primary-foreground,
+   text-danger, text-success, text-warning. */
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: var(--color-neutral-0);
+      --color-surface: var(--color-neutral-100);
+      --color-border: var(--color-neutral-200);
+      --color-foreground: var(--color-neutral-950);
+      --color-muted: var(--color-neutral-500);
+      --color-primary: var(--color-brand-600);
+      --color-primary-foreground: var(--color-neutral-0);
+      --color-danger: var(--color-red-600);
+      --color-success: var(--color-green-600);
+      --color-warning: var(--color-amber-600);
+    }
+
+    @variant dark {
+      --color-background: var(--color-neutral-950);
+      --color-surface: var(--color-neutral-900);
+      --color-border: var(--color-neutral-800);
+      --color-foreground: var(--color-neutral-50);
+      --color-muted: var(--color-neutral-400);
+      --color-primary: var(--color-brand-500);
+      --color-primary-foreground: var(--color-neutral-0);
+      --color-danger: var(--color-red-400);
+      --color-success: var(--color-green-400);
+      --color-warning: var(--color-amber-400);
+    }
+  }
 }
