@@ -32,8 +32,59 @@ module.exports = defineConfig([
     plugins: {
       'simple-import-sort': simpleImportSort,
     },
+    settings: {
+      // Resolve tsconfig path aliases (@app, @screens, ...) for import rules
+      'import/resolver': {
+        typescript: true,
+      },
+    },
     rules: {
       'import/no-default-export': 'error',
+      // FSD: a layer may only import from layers below it
+      // (app → screens → widgets → features → entities → shared)
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: './src/screens',
+              from: './src/app',
+              message: 'FSD: screens must not import from the app layer.',
+            },
+            {
+              target: './src/widgets',
+              from: ['./src/app', './src/screens'],
+              message: 'FSD: widgets may only import from layers below.',
+            },
+            {
+              target: './src/features',
+              from: ['./src/app', './src/screens', './src/widgets'],
+              message: 'FSD: features may only import from layers below.',
+            },
+            {
+              target: './src/entities',
+              from: [
+                './src/app',
+                './src/screens',
+                './src/widgets',
+                './src/features',
+              ],
+              message: 'FSD: entities may only import from layers below.',
+            },
+            {
+              target: './src/shared',
+              from: [
+                './src/app',
+                './src/screens',
+                './src/widgets',
+                './src/features',
+                './src/entities',
+              ],
+              message: 'FSD: shared must not import from upper layers.',
+            },
+          ],
+        },
+      ],
       'react/function-component-definition': [
         'error',
         {

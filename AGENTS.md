@@ -12,7 +12,7 @@ Opinionated Expo (SDK 57) + TypeScript template. React Navigation (native stack)
 - `npm run typecheck` — `tsc --noEmit`
 - `npm test` — Jest (`npm run test:watch` for watch mode)
 
-Run `npm run lint` and `npm run typecheck` after making changes; run `npm test` when changing components or logic.
+Run `npm run lint` and `npm run typecheck` after making changes; run `npm test` when changing components or logic. CI (`.github/workflows/ci.yml`) runs all three on pushes to `main` and on PRs.
 
 ## Testing
 
@@ -36,10 +36,20 @@ Note: `src/app` is the FSD app layer, NOT an Expo Router directory — this temp
 
 Rules:
 
-- A layer may only import from layers **below** it (app → screens → widgets → features → entities → shared). Never import upward or sideways between slices of the same layer.
+- A layer may only import from layers **below** it (app → screens → widgets → features → entities → shared). Never import upward or sideways between slices of the same layer. Upward imports are lint-enforced (`import/no-restricted-paths`); sideways slice imports are on the honor system for now.
 - Every slice exposes a public API through its `index.ts`; import slices only through it (e.g. `import { HomeScreen } from '@screens/home'`), never deep paths.
 - Use the path aliases from `tsconfig.json`: `@app/*`, `@screens/*`, `@widgets/*`, `@features/*`, `@entities/*`, `@shared/*`.
 - Typical slice segments: `ui/`, `model/`, `api/`, `lib/`.
+
+## Environment variables
+
+- Only `EXPO_PUBLIC_*` variables reach app code; Expo inlines them at build time, so they must be accessed as static `process.env.EXPO_PUBLIC_X` expressions — never dynamically
+- Access them only through `shared/config` (`env.ts`), which validates presence at startup; add new variables there and to `.env.example`
+- `.env` is gitignored; `.env.example` is the committed reference
+
+## Navigation
+
+- Routes are declared in `src/app/navigation/RootNavigator.tsx` (`RootStackParamList`); the global `ReactNavigation.RootParamList` augmentation in `navigation.d.ts` makes `useNavigation()` fully typed — keep it in sync when adding navigators
 
 ## Styling — Uniwind
 
