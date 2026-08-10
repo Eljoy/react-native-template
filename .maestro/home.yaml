@@ -1,0 +1,7 @@
+# Smoke flow: the app launches and renders the home screen.
+# Run against an installed dev build: `maestro test .maestro/`
+# appId must match android.package / ios.bundleIdentifier in app.json.
+appId: com.igazdaliev.reactnativetemplate
+---
+- launchApp
+- assertVisible: 'react-native-template'

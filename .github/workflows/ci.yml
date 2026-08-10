@@ -14,16 +14,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: yarn
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Lint
-        run: npm run lint
+        run: yarn lint
 
       - name: Typecheck
-        run: npm run typecheck
+        run: yarn typecheck
 
       - name: Test
-        run: npm test
+        run: yarn test
+
+      # Bundles the app (smoke check) and fails if src/uniwind-types.d.ts
+      # was committed stale — Metro regenerates it from src/global.css.
+      - name: Bundle & verify generated Uniwind types
+        run: |
+          yarn expo export --platform ios --output-dir /tmp/export-check
+          git diff --exit-code src/uniwind-types.d.ts

@@ -6,13 +6,15 @@ Opinionated Expo (SDK 57) + TypeScript template. React Navigation (native stack)
 
 ## Commands
 
-- `npm start` — start the dev server (`npm run ios` / `npm run android` for a platform)
-- `npm run lint` / `npm run lint:fix` — ESLint (flat config, `eslint.config.js`)
-- `npm run format` — Prettier
-- `npm run typecheck` — `tsc --noEmit`
-- `npm test` — Jest (`npm run test:watch` for watch mode)
+This is a **Yarn** project (Yarn 1 / classic) — never use npm or npx here; the only lockfile is `yarn.lock`.
 
-Run `npm run lint` and `npm run typecheck` after making changes; run `npm test` when changing components or logic. CI (`.github/workflows/ci.yml`) runs all three on pushes to `main` and on PRs.
+- `yarn ios` / `yarn android` — build and run a dev build (`yarn start` for just the dev server)
+- `yarn lint` / `yarn lint:fix` — ESLint (flat config, `eslint.config.js`)
+- `yarn format` — Prettier
+- `yarn typecheck` — `tsc --noEmit`
+- `yarn test` — Jest (`yarn test:watch` for watch mode)
+
+Run `yarn lint` and `yarn typecheck` after making changes; run `yarn test` when changing components or logic. CI (`.github/workflows/ci.yml`) runs all three on pushes to `main` and on PRs.
 
 ## Testing
 
@@ -78,6 +80,17 @@ Rules:
 - Spacing, radii, and font sizes use Tailwind's default scale (`p-4`, `gap-2`, `rounded-md`, `text-base`); customize via `@theme` in `global.css` only when the design calls for it
 - Theme switching: `Uniwind.setTheme('light' | 'dark' | 'system')`
 
+## Data fetching
+
+- Server state goes through **TanStack Query** (`@tanstack/react-query`); the `QueryClient` lives in `src/app/providers/QueryProvider.tsx`
+- Queries/mutations belong in a slice's `api/` segment; name query keys as arrays namespaced by slice (`['user', userId]`)
+- Don't add a client-state library preemptively — component state and Query's cache cover most needs; reach for one only when a real app proves the need
+
+## E2E (Maestro)
+
+- Smoke flows live in `.maestro/`; run them with `maestro test .maestro/` against an installed dev build
+- Keep E2E to critical paths only (launch, sign-in, checkout-tier flows) — if a component test can catch it, it belongs in Jest instead
+
 ## Localization
 
 i18next + react-i18next + expo-localization. **Each slice owns its translations as an i18next namespace**; the app layer aggregates them:
@@ -103,7 +116,7 @@ React Compiler is enabled (`experiments.reactCompiler` in `app.json` + `babel-pl
 - Don't use default exports (named exports only; enforced by `import/no-default-export`)
 - Prefer `type` over `interface` (exception: `.d.ts` declaration merging)
 - Use `import type { ... }` for type-only imports (enforced)
-- Import order is enforced by `simple-import-sort` (react → external → FSD layers → relative); run `npm run lint:fix` to sort
+- Import order is enforced by `simple-import-sort` (react → external → FSD layers → relative); run `yarn lint:fix` to sort
 
 ## Git
 
