@@ -68,6 +68,16 @@ Rules:
 - Spacing, radii, and font sizes use Tailwind's default scale (`p-4`, `gap-2`, `rounded-md`, `text-base`); customize via `@theme` in `global.css` only when the design calls for it
 - Theme switching: `Uniwind.setTheme('light' | 'dark' | 'system')`
 
+## Localization
+
+i18next + react-i18next + expo-localization, configured in `shared/lib/i18n` (initialized once via `initI18n()` in `src/app/App.tsx`; Jest does the same in `jest/setup.ts`):
+
+- **All user-facing strings go through `t()`** (`useTranslation` from `react-i18next`) — never hardcode display text in components
+- Translations live in `src/shared/lib/i18n/locales/<lang>.json`, one file per language; keys are grouped by slice (`home.title`, `profile.logout`). Every language file must define the same keys
+- Keys are **typed** from `en.json` (see `i18next.d.ts`) — a typo'd key is a TS error; `en` is the source of truth, add new keys there first
+- Adding a language: create the JSON file, register it in `resources` in `i18n.ts`
+- Device language is detected via `expo-localization` at startup; switch at runtime with `i18next.changeLanguage()`
+
 ## React Compiler
 
 React Compiler is enabled (`experiments.reactCompiler` in `app.json` + `babel-plugin-react-compiler`):

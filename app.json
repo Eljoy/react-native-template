@@ -24,6 +24,7 @@
     "experiments": {
       "tsconfigPaths": true,
       "reactCompiler": true
-    }
+    },
+    "plugins": ["expo-localization"]
   }
 }
