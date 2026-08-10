@@ -23,12 +23,19 @@ Copy [.env.example](.env.example) to `.env` and fill in the values (only `EXPO_P
 
 ## Starting a project from this template
 
-1. Use GitHub's **"Use this template"**, or `npx degit <owner>/react-native-template my-app`
-2. Rename checklist:
-   - `package.json` — `name`
-   - `app.json` — `name`, `slug`; add `ios.bundleIdentifier` and `android.package` before the first native build
-   - `README.md` — replace this file
-3. `npm install`, then `git init` (if degit) — husky hooks install via the `prepare` script
+```sh
+npx create-expo-app my-app --template github:iliasgazdaliev/react-native-template
+```
+
+This renames the app automatically (`package.json` `name`, `app.json` `name`/`slug`) and installs dependencies. What's left to do by hand:
+
+- Replace this `README.md` (and `LICENSE` if it doesn't apply)
+- `ios.bundleIdentifier` / `android.package` are intentionally unset — Expo prompts for them on the first native build
+- `git init` if create-expo-app didn't — husky hooks install via the `prepare` script
+
+Fallback without auto-rename: GitHub's **"Use this template"** or `npx degit`, then rename `package.json` `name` and `app.json` `name`/`slug` manually.
+
+> Publishing note: npm strips `.gitignore` from tarballs; the `prepack` script generates a dotless `gitignore` twin that `create-expo-app` renames back on scaffold. Nothing to maintain — it's automatic.
 
 ## Scripts
 

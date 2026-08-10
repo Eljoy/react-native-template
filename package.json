@@ -50,7 +50,9 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepack": "cp .gitignore gitignore",
+    "postpack": "rm -f gitignore"
   },
   "private": true,
   "jest": {
